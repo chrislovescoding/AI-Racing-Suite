@@ -7,17 +7,6 @@ let f1Car;
 let canvas;
 let BACKGROUNDCOLOUR, TRACKCOLOUR, ERRORCOLOUR;
 
-// Remove menuButtonWidth, menuButtonHeight, centreForButtons
-
-// Remove manualButton, autoButton, commentaryButton, quitButton (unless you want quit)
-// let manualButton, autoButton, commentaryButton, quitButton;
-
-// Keep backButtonWidth, backButton (or remove if you don't want a back button from the single page)
-let backButtonWidth;
-let backButton;
-
-// Remove homeButtons, eventKeyButtons, debugButtons, autoButtons, raceInformationButtons
-// Keep manualButtons
 let manualButtons;
 
 // Remove homeMenu, autoTrackDesigner, eventKeyMenu, debugMenu, raceInformationMenu
@@ -56,27 +45,6 @@ function setup() {
   BACKGROUNDCOLOUR = color(64, 92, 177);
   TRACKCOLOUR = color(152, 174, 221);
   ERRORCOLOUR = color("#DC7C7C");
-
-  // Remove definitions for home menu buttons
-
-  backButtonWidth = width / 8;
-
-  // If you want a back button on the manual page, keep this. 
-  // Otherwise, remove it and remove it from manualButtons.
-  // If kept, its function 'back()' needs to be considered:
-  // what should "back" do if it's the only page?
-  backButton = new Button(
-    width - backButtonWidth * 1.1,
-    backButtonWidth * 0.1,
-    backButtonWidth,
-    backButtonWidth,
-    "<",
-    back // 'back' function will need adjustment or removal
-  );
-
-  // manualButtons will now only contain the backButton (if kept)
-  // and buttons defined within the Manual class itself (save/load).
-  manualButtons = [backButton]; // Or manualButtons = []; if no back button
 
   // Initialize only manualTrackDesigner
   manualTrackDesigner = new Manual(manualButtons);
@@ -143,23 +111,6 @@ function quit() {
   // Or remove entirely if no quit button
 }
 
-// The 'back' function needs careful consideration.
-// If manualTrackDesigner is the only state, popping it will leave menuStack empty.
-function back() {
-  if (menuStack.length > 1) { // This check prevents error if it's the only item
-    menuStack.pop();
-  } else {
-    print("Cannot go back, this is the only page.");
-    // Or implement a "reset manual designer" logic here
-    // Or make the back button simply non-functional or not present
-  }
-
-  // Remove lines related to other menus
-  // debugMenu.firstTime = true;
-  // eventKeyMenu.eventKeyInputBox.hide();
-  // debugMenu.debugScrollDiv.hide();
-}
-
 function cursorState() {
   if (menuStack.length > 0) {
     for (let b of menuStack[menuStack.length - 1].buttons) {
@@ -201,12 +152,6 @@ function mousePressed() {
       if (
         manualTrackDesigner.timeSinceActivated > manualTrackDesigner.timeDelay
       ) {
-        if (
-          mouseX > width - backButton.w || // Assumes backButton exists
-          mouseY < manualTrackDesigner.titleArea
-        ) {
-          return;
-        }
         for (let segment of manualTrackDesigner.track) {
           for (let i = 0; i < segment.nodes.length; i++) {
             let node = segment.nodes[i];
