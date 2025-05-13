@@ -3,35 +3,33 @@
   <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.1.0/math.js"></script>
-    <!-- p5.sound.min.js is not strictly needed for manual designer unless you add sound effects -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/addons/p5.sound.min.js"></script> -->
     <link rel="stylesheet" type="text/css" href="style.css" />
     <meta charset="utf-8" />
   </head>
   <body>
     <main></main>
-    <script src="sketch.js"></script>
 
+    <!-- Load helper utilities and base classes first -->
     <script src="utils.js"></script>
     <script src="button.js"></script>
-    <!-- slider.js is not needed -->
-    <!-- queue.js is not needed -->
-    
-    <script src="menu.js"></script>
-    <!-- homeMenu.js is not needed -->
-    <!-- All commentary/ scripts are not needed -->
-    <!-- All autoTrackDesigner/ scripts are not needed -->
+    <script src="menu.js"></script> <!-- Manual extends Menu, so Menu must be first -->
 
+    <!-- Load all components for manualTrackDesigner -->
     <script src="manualTrackDesigner/node.js"></script>
     <script src="manualTrackDesigner/trackSegments.js"></script>
+    <!-- IMPORTANT: You have two utils.js files. Make sure this is intended.
+         If manualTrackDesigner/utils.js has functions specific to it,
+         and the root utils.js has general ones, this is fine.
+         If they are meant to be the same, consolidate them. -->
     <script src="manualTrackDesigner/utils.js"></script>
-    <script src="manualTrackDesigner/car.js"></script>
-    <script src="manualTrackDesigner/controls.js"></script>
-    <script src="manualTrackDesigner/sensor.js"></script>
-    <script src="manualTrackDesigner/brain.js"></script>
-    <script src="manualTrackDesigner/toggle.js"></script>
-    <!-- manualTrackDesigner/initialiseManualTrackDesigner.js was in your list but not provided, if it exists and is needed, keep it -->
-    <script src="manualTrackDesigner/manual.js"></script>
+    <script src="manualTrackDesigner/controls.js"></script> <!-- Car uses Controls -->
+    <script src="manualTrackDesigner/sensor.js"></script>   <!-- Car uses Sensor -->
+    <script src="manualTrackDesigner/brain.js"></script>    <!-- Car uses Brain -->
+    <script src="manualTrackDesigner/car.js"></script>      <!-- Manual uses Car -->
+    <script src="manualTrackDesigner/toggle.js"></script>   <!-- Manual uses Toggle -->
+    <script src="manualTrackDesigner/manual.js"></script>   <!-- Defines the Manual class -->
 
+    <!-- Finally, load the main sketch file that uses all the above -->
+    <script src="sketch.js"></script>
   </body>
 </html>

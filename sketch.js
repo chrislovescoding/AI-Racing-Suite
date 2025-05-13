@@ -1,27 +1,16 @@
-// Keep f1Car global
-let f1Car;
-// Remove tileImages
-// let tileImages;
 
-// Keep canvas, BACKGROUNDCOLOUR, TRACKCOLOUR, ERRORCOLOUR
+let f1Car;
+
 let canvas;
 let BACKGROUNDCOLOUR, TRACKCOLOUR, ERRORCOLOUR;
 
 let manualButtons;
 
-// Remove homeMenu, autoTrackDesigner, eventKeyMenu, debugMenu, raceInformationMenu
-// Keep manualTrackDesigner
-// let homeMenu;
-let manualTrackDesigner;
-// let autoTrackDesigner;
-// let eventKeyMenu;
-// let debugMenu;
-// let raceInformationMenu;
 
-// Keep menuStack
+let manualTrackDesigner;
+
 let menuStack;
 
-// Keep framerate, error variables
 let framerate;
 let error;
 let showError;
@@ -31,11 +20,6 @@ let errorAliveTime;
 function preload() {
   f1Car = loadImage("f1Car.png");
 
-  // Remove loading of tileImages
-  // tileImages = [
-  //   loadImage("Tiles/Chicane.png"),
-  //   // ... and so on
-  // ];
 }
 
 function setup() {
@@ -46,10 +30,10 @@ function setup() {
   TRACKCOLOUR = color(152, 174, 221);
   ERRORCOLOUR = color("#DC7C7C");
 
-  // Initialize only manualTrackDesigner
+  manualButtons = [];
+
   manualTrackDesigner = new Manual(manualButtons);
 
-  // Start directly with the manualTrackDesigner
   menuStack = [manualTrackDesigner];
 
   frameRate(60);
@@ -65,17 +49,13 @@ function draw() {
     framerate = frameRate();
   }
 
-  // Remove the noSmooth() condition for autoTrackDesigner
-  // if (menuStack[menuStack.length - 1] === autoTrackDesigner) {
-  //   noSmooth();
-  // } else {
-  //   smooth();
-  // }
-  smooth(); // Or decide if you want smooth or noSmooth always
+  smooth();
 
   cursorState();
 
-  // This will always call manualTrackDesigner.logic()
+  if (menuStack.length > 0) {
+    menuStack[menuStack.length - 1].logic();
+  }
   if (menuStack.length > 0) {
     menuStack[menuStack.length - 1].logic();
   }
@@ -83,32 +63,15 @@ function draw() {
   // text(floor(framerate), 0, 20);
 }
 
-// This function might not be needed if manual is the only page.
-// If kept, it's fine.
 function manual() {
-  // If manualTrackDesigner is already the only item, pushing it again might be redundant
-  // or could be used to "reset" it by re-triggering its activation.
-  // For simplicity, if it's the only page, this function might not be called.
   if (menuStack[menuStack.length - 1] !== manualTrackDesigner) {
       menuStack.push(manualTrackDesigner);
   }
   manualTrackDesigner.timeSinceActivated = 0;
-}
-
-// Remove auto() and commentary()
-/*
-function auto() {
-  menuStack.push(autoTrackDesigner);
-}
-function commentary() {
-  menuStack.push(eventKeyMenu);
-}
-*/
-
-// Remove or simplify quit()
-function quit() {
-  print("quit - No action in single page mode");
-  // Or remove entirely if no quit button
+  if (menuStack[menuStack.length - 1] !== manualTrackDesigner) {
+      menuStack.push(manualTrackDesigner);
+  }
+  manualTrackDesigner.timeSinceActivated = 0;
 }
 
 function cursorState() {
@@ -129,7 +92,6 @@ function mousePressed() {
       button.tryActivate();
     });
 
-    // The logic for manualTrackDesigner can remain as is.
     if (menuStack[menuStack.length - 1] === manualTrackDesigner) {
       if (manualTrackDesigner.editToggle.toggle()) {
         manualTrackDesigner.edit = manualTrackDesigner.editToggle.isToggled;
@@ -180,17 +142,10 @@ function mousePressed() {
         return;
       }
     }
-    // Remove the else if block for autoTrackDesigner
-    /*
-    else if (menuStack[menuStack.length - 1] === autoTrackDesigner) {
-      // ... auto track designer click logic ...
-    }
-    */
   }
 }
 
 function mouseMoved() {
-  // This is specific to manualTrackDesigner, so it's fine.
   if (menuStack.length > 0 && menuStack[menuStack.length - 1] === manualTrackDesigner) {
     for (let segment of manualTrackDesigner.track) {
       for (let node of segment.nodes) {
@@ -212,7 +167,6 @@ function mouseMoved() {
   }
 }
 
-// These key handlers are fine as they directly reference manualTrackDesigner.cars[0]
 function keyPressed() {
   if (manualTrackDesigner && manualTrackDesigner.cars && manualTrackDesigner.cars.length > 0) {
     if (key == "W" || key == "w") {

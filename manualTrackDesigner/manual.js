@@ -1,4 +1,7 @@
 showTheCars = true;
+
+let rightSideBarWidth;
+
 class Manual extends Menu {
   constructor(buttons) {
     super(buttons);
@@ -126,11 +129,15 @@ class Manual extends Menu {
 
     this.trackPixelGraphic = createGraphics(width, height);
 
+    rightSideBarWidth = width * 0.16;
+
+    this.buttonWidth = width * 0.1;
+
     this.saveTrackButton = new Button(
       width * 0.898,
       height * 0.28,
-      backButtonWidth * 0.7,
-      backButtonWidth * 0.7,
+      this.buttonWidth,
+      this.buttonWidth,
       "🖫",
       this.saveTrack.bind(this),
       width * 0.07,
@@ -141,8 +148,8 @@ class Manual extends Menu {
     this.loadTrackButton = new Button(
       width * 0.898,
       height * 0.4,
-      backButtonWidth * 0.7,
-      backButtonWidth * 0.7,
+      this.buttonWidth,
+      this.buttonWidth,
       "🗁",
       this.activateFileInput.bind(this),
       width * 0.05,
@@ -229,11 +236,11 @@ class Manual extends Menu {
         //CHECK LEFT
         this.selectedNode.x = this.selectedNode.radius;
       } else if (
-        this.selectedNode.x + this.selectedNode.radius + backButton.w >
+        this.selectedNode.x + this.selectedNode.radius + rightSideBarWidth >
         width
       ) {
         //CHECK RIGHT
-        this.selectedNode.x = width - this.selectedNode.radius - backButton.w;
+        this.selectedNode.x = width - this.selectedNode.radius - rightSideBarWidth;
       }
       if (this.selectedNode.y - this.selectedNode.radius < this.titleArea) {
         //CHECK UP
